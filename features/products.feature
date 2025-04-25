@@ -38,3 +38,63 @@ Scenario: Create a Product
     And I should see "True" in the "Available" dropdown
     And I should see "Tools" in the "Category" dropdown
     And I should see "34.95" in the "Price" field
+
+Scenario: Update a Product
+    When I visit the "Home Page"
+    And I set the "Name" to "Pencil"
+    And I set the "Description" to "Yellow pencil"
+    And I select "True" in the "Available" dropdown
+    And I select "STATIONERY" in the "Category" dropdown
+    And I set the "Price" to "0.99"
+    And I press the "Create" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I set the "Name" to "Marker"
+    And I press the "Update" button
+    Then I should see the message "Success"
+    And I should see "Marker" in the "Name" field
+
+Scenario: Delete a Product
+    When I visit the "Home Page"
+    And I set the "Name" to "Mug"
+    And I set the "Description" to "Coffee mug"
+    And I select "True" in the "Available" dropdown
+    And I select "HOUSEWARES" in the "Category" dropdown
+    And I set the "Price" to "15.00"
+    And I press the "Create" button
+    Then I should see the message "Success"
+    When I copy the "Id" field
+    And I press the "Delete" button
+    Then I should see the message "Product has been Deleted!"
+
+Scenario: List All Products
+    When I visit the "Home Page"
+    And I press the "List" button
+    Then I should see "Hat" in the results
+    And I should see "Shoes" in the results
+    And I should see "Big Mac" in the results
+    And I should see "Sheets" in the results
+
+Scenario: Search Products by Name
+    When I visit the "Home Page"
+    And I select "name" in the "Search Filter" dropdown
+    And I set the "Search Term" to "Hat"
+    And I press the "Search" button
+    Then I should see "Hat" in the results
+    And I should not see "Shoes" in the results
+
+Scenario: Search Products by Category
+    When I visit the "Home Page"
+    And I select "category" in the "Search Filter" dropdown
+    And I set the "Search Term" to "FOOD"
+    And I press the "Search" button
+    Then I should see "Big Mac" in the results
+    And I should not see "Hat" in the results
+
+Scenario: Search Products by Availability
+    When I visit the "Home Page"
+    And I select "available" in the "Search Filter" dropdown
+    And I set the "Search Term" to "False"
+    And I press the "Search" button
+    Then I should see "Shoes" in the results
+    And I should not see "Hat" in the results

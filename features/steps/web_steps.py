@@ -104,7 +104,26 @@ def step_impl(context, element_name):
 # to get the element id of any button
 ##################################################################
 
-## UPDATE CODE HERE ##
+@when('I press the "{button}" button')
+def step_impl(context, button):
+    button_id = button.lower() + '-btn'
+    button = context.driver.find_element(By.ID, button_id)
+    button.click()
+
+@then('I should see "{name}" in the results')
+def step_impl(context, name):
+    table = WebDriverWait(context.driver, context.wait_seconds).until(
+        expected_conditions.presence_of_element_located((By.ID, 'search_results'))
+    )
+    assert(name in table.text)
+
+@then('I should not see "{name}" in the results')
+def step_impl(context, name):
+    table = WebDriverWait(context.driver, context.wait_seconds).until(
+        expected_conditions.presence_of_element_located((By.ID, 'search_results'))
+    )
+    assert(name not in table.text)
+
 
 ##################################################################
 # This code works because of the following naming convention:
